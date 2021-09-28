@@ -262,19 +262,19 @@ module.exports = class Reader extends Component {
       const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height)
       // Send data to web-worker
       this.worker.postMessage(imageData)
-      const { legacyMode, delay } = this.props
-      if (!legacyMode && typeof delay == 'number' && this.worker) {
-        this.timeout = setTimeout(this.check, delay)
-      }
     } else {
       // Preview not ready -> check later
       this.timeout = setTimeout(this.check, delay)
     }
   }
   handleWorkerMessage(e) {
-    const { onScan } = this.props
+    const { onScan, legacyMode, delay } = this.props
     const decoded = e.data
     onScan(decoded || null)
+
+    if (!legacyMode && typeof delay == 'number' && this.worker) {
+      this.timeout = setTimeout(this.check, delay)
+    }
   }
   initiateLegacyMode() {
     this.reader = new FileReader()
