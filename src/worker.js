@@ -1,7 +1,7 @@
 // jsQR is concatenated by gulp
 
 self.addEventListener('message', function(e) {
-  var encoded = null
+  var decoded = null
   try {
     decoded = jsQR(
       e.data.data,
@@ -9,7 +9,6 @@ self.addEventListener('message', function(e) {
       e.data.height
     )
   } catch (e) {
-    postMessage(e)
     if (!(e instanceof RangeError))
     throw error;
   }
